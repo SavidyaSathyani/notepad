@@ -26,7 +26,7 @@ class Form extends React.Component {
           </div>
           <div className="input-feild col s7">
             <input
-              name="currentdetails"
+              name="currentDetails"
               type="text"
               value={this.props.currentDetails}
               onChange={this.handleChange}

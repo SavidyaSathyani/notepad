@@ -7,9 +7,11 @@ const Single = props => {
         <div className="card-content white-text">
           <span className="card-title">{props.note.title}</span>
           <p>{props.note.details}</p>
+          <div className="card-action">
+            <a onClick={() => props.deleteNode(props.note.id)}>Delete</a>
+          </div>
         </div>
       </div>
-      <div className="card-action" />
     </li>
   );
 };

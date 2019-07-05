@@ -20,11 +20,12 @@ class App extends React.Component {
       notes: [],
       name: "Manny",
       currentTitle: "",
-      currentdetails: ""
+      currentDetails: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.deleteNote = this.deleteNote.bind(this);
   }
 
   componentWillMount() {
@@ -54,7 +55,6 @@ class App extends React.Component {
   }
 
   handleChange(event) {
-    console.log(event);
     const name = event.target.name;
     const value = event.target.value;
 
@@ -68,7 +68,7 @@ class App extends React.Component {
 
     const data = {
       title: this.state.currentTitle,
-      details: this.state.currentdetails
+      details: this.state.currentDetails
     };
 
     firebase
@@ -78,8 +78,13 @@ class App extends React.Component {
 
     this.setState({
       currentTitle: "",
-      currentdetails: ""
+      currentDetails: ""
     });
+  }
+
+  deleteNote(id) {
+    firebase.database().ref(`/notes/${id}`).remove();
+    alert('Successfully deleted.');
   }
 
   render() {
@@ -88,11 +93,11 @@ class App extends React.Component {
         <Header name={this.state.name} />
         <Form
           currentTitle={this.state.currentTitle}
-          currentdetails={this.state.currentdetails}
+          currentDetails={this.state.currentDetails}
           handleChange={this.handleChange}
           handleSubmit={this.handleSubmit}
         />
-        <Grid notes={this.state.notes} />
+        <Grid notes={this.state.notes} deleteNode={this.deleteNote} />
       </div>
     );
   }
