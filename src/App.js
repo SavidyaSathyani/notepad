@@ -1,4 +1,5 @@
 import React from "react";
+import firebase from "firebase/app";
 import Header from "./components/Header";
 import Grid from "./components/Grid";
 import Form from "./components/Form";
@@ -38,6 +39,16 @@ class App extends React.Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    const config = {
+      apiKey: "AIzaSyAtw_Bs82OSWvJVBfDLU3ZEUuG_BS1fDmQ",
+      authDomain: "notepad-123.firebaseapp.com",
+      databaseURL: "https://notepad-123.firebaseio.com"
+    };
+    firebase.initializeApp(config);
+    console.log("Successfully conneted");
   }
 
   handleChange(event) {
