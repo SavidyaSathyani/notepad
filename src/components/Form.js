@@ -20,13 +20,14 @@ class Form extends React.Component {
               name="currentTitle"
               type="text"
               value={this.props.currentTitle}
-              onChange={this.props.handleChange}
+              onChange={this.handleChange}
               placeholder="Title"
             />
           </div>
           <div className="input-feild col s7">
             <input
               name="currentdetails"
+              type="text"
               value={this.props.currentDetails}
               onChange={this.handleChange}
               placeholder="Details"
@@ -39,7 +40,7 @@ class Form extends React.Component {
               type="submit"
               name="action"
             >
-              Add Note{" "}
+              Add Note
             </button>
           </div>
         </div>

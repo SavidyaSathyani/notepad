@@ -1,5 +1,7 @@
 import React from "react";
-import firebase from "firebase/app";
+import firebase from "firebase";
+import _ from "lodash";
+
 import Header from "./components/Header";
 import Grid from "./components/Grid";
 import Form from "./components/Form";
@@ -15,23 +17,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      notes: [
-        {
-          id: 1,
-          title: "Add Course notes",
-          details: "sdgfjdsfjhdsgfjhdsgfjhd jsdhgfjsdfggjgdjhfg"
-        },
-        {
-          id: 2,
-          title: "Add Course notes 2",
-          details: "sdgfjdsfjhdsgfjhdsgfjhd jsdhgfjs fdgfg dfggjgdjhfg"
-        },
-        {
-          id: 3,
-          title: "Add Course notes 3",
-          details: "sdgfjdsfjhdsgfjhdsgfjhd jsdhgfjsdffgf gfgfgg gjgdjhfg"
-        }
-      ],
+      notes: [],
       name: "Manny",
       currentTitle: "",
       currentdetails: ""
@@ -48,10 +34,27 @@ class App extends React.Component {
       databaseURL: "https://notepad-123.firebaseio.com"
     };
     firebase.initializeApp(config);
-    console.log("Successfully conneted");
+
+    firebase
+      .database()
+      .ref("/notes")
+      .on("value", snapshot => {
+        const fbStore = snapshot.val();
+        const store = _.map(fbStore, (value, id) => {
+          return {
+            id: id,
+            title: value.title,
+            details: value.details
+          };
+        });
+        this.setState({
+          notes: store
+        });
+      });
   }
 
   handleChange(event) {
+    console.log(event);
     const name = event.target.name;
     const value = event.target.value;
 
@@ -61,8 +64,22 @@ class App extends React.Component {
   }
 
   handleSubmit(event) {
-    alert(`Your note ${this.state.currentTitle} has been added.`);
     event.preventDefault();
+
+    const data = {
+      title: this.state.currentTitle,
+      details: this.state.currentdetails
+    };
+
+    firebase
+      .database()
+      .ref("/notes")
+      .push(data, responce => responce);
+
+    this.setState({
+      currentTitle: "",
+      currentdetails: ""
+    });
   }
 
   render() {
