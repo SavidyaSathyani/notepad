@@ -2,10 +2,12 @@ import React from "react";
 import firebase from "firebase";
 import _ from "lodash";
 import dotenv from 'dotenv';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import Header from "./components/Header";
-import Grid from "./components/Grid";
-import Form from "./components/Form";
+import Page1 from "./components/Page1"
+import Page2 from "./components/Page2"
+import Page3 from "./components/Page3"
 
 dotenv.config();
 
@@ -92,16 +94,23 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className={styles}>
-        <Header name={this.state.name} />
-        <Form
-          currentTitle={this.state.currentTitle}
-          currentDetails={this.state.currentDetails}
-          handleChange={this.handleChange}
-          handleSubmit={this.handleSubmit}
-        />
-        <Grid notes={this.state.notes} deleteNode={this.deleteNote} />
-      </div>
+      <Router>
+        <div className={styles}>
+          <Header name={this.state.name} />
+          <Route exact path="/" render={(props) => (
+            <Page1
+              currentTitle={this.state.currentTitle}
+              currentDetails={this.state.currentDetails}
+              handleChange={this.handleChange}
+              handleSubmit={this.handleSubmit}
+              notes={this.state.notes} 
+              deleteNode={this.deleteNote}
+            />
+          )} /> 
+          <Route path="/page2" component={Page2} />
+          <Route path="/page3" component={Page3} />
+        </div>
+      </Router>
     );
   }
 }
