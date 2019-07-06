@@ -1,10 +1,13 @@
 import React from "react";
 import firebase from "firebase";
 import _ from "lodash";
+import dotenv from 'dotenv';
 
 import Header from "./components/Header";
 import Grid from "./components/Grid";
 import Form from "./components/Form";
+
+dotenv.config();
 
 const styles = {
   textAlign: "center",
@@ -30,9 +33,9 @@ class App extends React.Component {
 
   componentWillMount() {
     const config = {
-      apiKey: "AIzaSyAtw_Bs82OSWvJVBfDLU3ZEUuG_BS1fDmQ",
-      authDomain: "notepad-123.firebaseapp.com",
-      databaseURL: "https://notepad-123.firebaseio.com"
+      apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+      authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+      databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL
     };
     firebase.initializeApp(config);
 
